@@ -12,6 +12,7 @@ type model = {
   avtomat : t;
   stanje_avtomata : Stanje.t;
   stanje_vmesnika : stanje_vmesnika;
+  input_string : string option;  (* Store the input string for output purposes *)
 }
 
 type msg =
@@ -20,22 +21,27 @@ type msg =
   | VrniVPrvotnoStanje
 
 let preberi_niz avtomat q niz =
-  let aux acc znak =
-    match acc with
-    | None -> None
-    | Some q -> Avtomat.prehodna_funkcija avtomat q znak
+  let rec aux acc stanje niz =
+    if String.length niz = 0 then (acc, Some stanje)
+    else
+      match prehodna_funkcija avtomat stanje (String.get niz 0) with
+      | None -> (acc, None)
+      | Some (stanje', izhod) ->
+        aux (acc ^ izhod) stanje' (String.sub niz 1 (String.length niz - 1))
   in
-  niz |> String.to_seq |> Seq.fold_left aux (Some q)
+  aux "" q niz
 
 let update model = function
   | PreberiNiz str -> (
-      match preberi_niz model.avtomat model.stanje_avtomata str with
-      | None -> { model with stanje_vmesnika = OpozoriloONapacnemNizu }
+      let (izhod, stanje_opt) = preberi_niz model.avtomat model.stanje_avtomata str in
+      match stanje_opt with
+      | None -> { model with stanje_vmesnika = OpozoriloONapacnemNizu; input_string = Some str }
       | Some stanje_avtomata ->
           {
             model with
             stanje_avtomata;
             stanje_vmesnika = RezultatPrebranegaNiza;
+            input_string = Some izhod;
           })
   | ZamenjajVmesnik stanje_vmesnika -> { model with stanje_vmesnika }
   | VrniVPrvotnoStanje ->
@@ -43,6 +49,7 @@ let update model = function
         model with
         stanje_avtomata = zacetno_stanje model.avtomat;
         stanje_vmesnika = SeznamMoznosti;
+        input_string = None;
       }
 
 let rec izpisi_moznosti () =
@@ -71,15 +78,21 @@ let izpisi_avtomat avtomat =
   in
   List.iter izpisi_stanje (seznam_stanj avtomat)
 
-let beri_niz _model =
+let beri_niz () =
   print_string "Vnesi niz > ";
   let str = read_line () in
   PreberiNiz str
 
 let izpisi_rezultat model =
-  if je_sprejemno_stanje model.avtomat model.stanje_avtomata then
-    print_endline "Niz je bil sprejet"
-  else print_endline "Niz ni bil sprejet"
+  match model.input_string with
+  | Some izhod ->
+      print_endline izhod;
+      if je_sprejemno_stanje model.avtomat model.stanje_avtomata then
+        print_endline "Niz je bil sprejet"
+      else
+        print_endline "Niz ni bil sprejet"
+  | None ->
+      print_endline "Nobene vhodne vrstice za prikaz rezultata"
 
 let view model =
   match model.stanje_vmesnika with
@@ -87,7 +100,7 @@ let view model =
   | IzpisAvtomata ->
       izpisi_avtomat model.avtomat;
       ZamenjajVmesnik SeznamMoznosti
-  | BranjeNiza -> beri_niz model
+  | BranjeNiza -> beri_niz ()  (* Call beri_niz without model *)
   | RezultatPrebranegaNiza ->
       izpisi_rezultat model;
       ZamenjajVmesnik SeznamMoznosti
@@ -100,6 +113,7 @@ let init avtomat =
     avtomat;
     stanje_avtomata = zacetno_stanje avtomat;
     stanje_vmesnika = SeznamMoznosti;
+    input_string = None;  (* Initialize input_string as None *)
   }
 
 let rec loop model =

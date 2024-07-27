@@ -10,13 +10,12 @@ let stanje { stanje; _ } = stanje
 let korak_naprej { avtomat; trak; stanje } =
   if Trak.je_na_koncu trak then None
   else
-    let stanje' =
-      Avtomat.prehodna_funkcija avtomat stanje (Trak.trenutni_znak trak)
+    let (stanje', _) =
+      match Avtomat.prehodna_funkcija avtomat stanje (Trak.trenutni_znak trak) with
+      | None -> (stanje, "")  (* No transition found, stay in current state *)
+      | Some (stanje', _) -> (stanje', "")  (* Transition found, move to next state *)
     in
-    match stanje' with
-    | None -> None
-    | Some stanje' ->
-        Some { avtomat; trak = Trak.premakni_naprej trak; stanje = stanje' }
+    Some { avtomat; trak = Trak.premakni_naprej trak; stanje = stanje' }
 
 let je_v_sprejemnem_stanju { avtomat; stanje; _ } =
   Avtomat.je_sprejemno_stanje avtomat stanje

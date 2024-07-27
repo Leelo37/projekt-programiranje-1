@@ -1,1 +1,1 @@
-src/tekstovniVmesnik/tekstovniVmesnik.ml: Avtomat Definicije List Seq Stanje String
+src/tekstovniVmesnik/tekstovniVmesnik.ml: Avtomat Definicije List Stanje String
