@@ -16,6 +16,3 @@ let korak_naprej { avtomat; trak; stanje } =
       | Some (stanje', _) -> (stanje', "")  (* Transition found, move to next state *)
     in
     Some { avtomat; trak = Trak.premakni_naprej trak; stanje = stanje' }
-
-let je_v_sprejemnem_stanju { avtomat; stanje; _ } =
-  Avtomat.je_sprejemno_stanje avtomat stanje

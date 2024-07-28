@@ -71,9 +71,6 @@ let izpisi_avtomat avtomat =
     let prikaz =
       if stanje = zacetno_stanje avtomat then "-> " ^ prikaz else prikaz
     in
-    let prikaz =
-      if je_sprejemno_stanje avtomat stanje then prikaz ^ " +" else prikaz
-    in
     print_endline prikaz
   in
   List.iter izpisi_stanje (seznam_stanj avtomat)
@@ -87,10 +84,6 @@ let izpisi_rezultat model =
   match model.input_string with
   | Some izhod ->
       print_endline izhod;
-      if je_sprejemno_stanje model.avtomat model.stanje_avtomata then
-        print_endline "Niz je bil sprejet"
-      else
-        print_endline "Niz ni bil sprejet"
   | None ->
       print_endline "Nobene vhodne vrstice za prikaz rezultata"
 
