@@ -12,13 +12,12 @@ type model = {
   avtomat : t;
   stanje_avtomata : Stanje.t;
   stanje_vmesnika : stanje_vmesnika;
-  input_string : string option;  (* Store the input string for output purposes *)
+  input_string : string option;
 }
 
 type msg =
   | PreberiNiz of string
   | ZamenjajVmesnik of stanje_vmesnika
-  | VrniVPrvotnoStanje
 
 let preberi_niz avtomat q niz =
   let rec aux acc stanje niz =
@@ -44,25 +43,16 @@ let update model = function
             input_string = Some izhod;
           })
   | ZamenjajVmesnik stanje_vmesnika -> { model with stanje_vmesnika }
-  | VrniVPrvotnoStanje ->
-      {
-        model with
-        stanje_avtomata = zacetno_stanje model.avtomat;
-        stanje_vmesnika = SeznamMoznosti;
-        input_string = None;
-      }
 
 let rec izpisi_moznosti () =
   print_endline "1) izpiši avtomat";
-  print_endline "2) beri znake";
-  print_endline "3) nastavi na začetno stanje";
+  print_endline "2) preberi niz";
   print_string "> ";
   match read_line () with
   | "1" -> ZamenjajVmesnik IzpisAvtomata
   | "2" -> ZamenjajVmesnik BranjeNiza
-  | "3" -> VrniVPrvotnoStanje
   | _ ->
-      print_endline "** VNESI 1, 2 ALI 3 **";
+      print_endline "** VNESI 1 ALI 2 **";
       izpisi_moznosti ()
 
 let izpisi_avtomat avtomat =
@@ -77,7 +67,7 @@ let izpisi_avtomat avtomat =
 
 let beri_niz () =
   print_string "Vnesi niz > ";
-  let str = read_line () in
+  let str = read_line () ^ " " in (* Tukaj sem dodal presledek, da se na koncu vsakega vnosa avtomat premakne v začetno stanje. Tako se vedno izpiše zadnja črka, hkrati pa ni več potrebe po ročni ponastavitvi avtomata.*)
   PreberiNiz str
 
 let izpisi_rezultat model =
@@ -93,7 +83,7 @@ let view model =
   | IzpisAvtomata ->
       izpisi_avtomat model.avtomat;
       ZamenjajVmesnik SeznamMoznosti
-  | BranjeNiza -> beri_niz ()  (* Call beri_niz without model *)
+  | BranjeNiza -> beri_niz ()
   | RezultatPrebranegaNiza ->
       izpisi_rezultat model;
       ZamenjajVmesnik SeznamMoznosti
@@ -106,7 +96,7 @@ let init avtomat =
     avtomat;
     stanje_avtomata = zacetno_stanje avtomat;
     stanje_vmesnika = SeznamMoznosti;
-    input_string = None;  (* Initialize input_string as None *)
+    input_string = None;
   }
 
 let rec loop model =
@@ -114,4 +104,4 @@ let rec loop model =
   let model' = update model msg in
   loop model'
 
-let _ = loop (init enke_1mod3)
+let _ = loop (init prevajalnik_morsejeve_kode)

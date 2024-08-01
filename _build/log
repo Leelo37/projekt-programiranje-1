@@ -1,10 +1,10 @@
-# dune exec ./tekstovniVmesnik.exe
+# dune build
 # OCAMLPARAM: unset
 # Workspace root: /workspaces/projekt-programiranje-1
-$ /usr/bin/nproc > /tmp/dune03c8da.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dunec15795.output 2> /dev/null
 # Auto-detected concurrency: 12
 # disable binary cache
-$ /home/opam/.opam/4.11/bin/ocamlc.opt -config > /tmp/dune56effa.output
+$ /home/opam/.opam/4.11/bin/ocamlc.opt -config > /tmp/dune083a6b.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -106,4 +106,3 @@ $ /home/opam/.opam/4.11/bin/ocamlc.opt -config > /tmp/dune56effa.output
 #      ; windows_unicode = false
 #      }
 #  }
-# Workspace root: /workspaces/projekt-programiranje-1

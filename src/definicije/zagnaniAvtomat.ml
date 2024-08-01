@@ -12,7 +12,7 @@ let korak_naprej { avtomat; trak; stanje } =
   else
     let (stanje', _) =
       match Avtomat.prehodna_funkcija avtomat stanje (Trak.trenutni_znak trak) with
-      | None -> (stanje, "")  (* No transition found, stay in current state *)
-      | Some (stanje', _) -> (stanje', "")  (* Transition found, move to next state *)
+      | None -> (stanje, "")
+      | Some (stanje', _) -> (stanje', "")
     in
     Some { avtomat; trak = Trak.premakni_naprej trak; stanje = stanje' }
