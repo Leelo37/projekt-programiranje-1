@@ -9,5 +9,4 @@ val prehodna_funkcija : t -> stanje -> char -> (stanje * string) option
 val zacetno_stanje : t -> stanje
 val seznam_stanj : t -> stanje list
 val seznam_prehodov : t -> (stanje * char * stanje * string) list
-val prevajalnik_morsejeve_kode : t
 val preberi_niz : t -> stanje -> string -> string * stanje option

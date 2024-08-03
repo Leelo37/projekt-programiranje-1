@@ -104,4 +104,4 @@ let rec loop model =
   let model' = update model msg in
   loop model'
 
-let _ = loop (init prevajalnik_morsejeve_kode)
+let _ = loop (init Model.prevajalnik_morsejeve_kode)
