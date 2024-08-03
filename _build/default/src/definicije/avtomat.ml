@@ -64,6 +64,9 @@ let prevajalnik_morsejeve_kode =
   and u_s_pikicami = Stanje.iz_niza "Ü"
   and sh = Stanje.iz_niza "Š"
   and o_s_pikicami = Stanje.iz_niza "Ö"
+  and ch = Stanje.iz_niza "Č"
+  and zh = Stanje.iz_niza "Ž"
+  and sh2 = Stanje.iz_niza "Š2"
   and stevilo_1 = Stanje.iz_niza "1"
   and stevilo_2 = Stanje.iz_niza "2"
   and stevilo_3 = Stanje.iz_niza "3"
@@ -76,7 +79,6 @@ let prevajalnik_morsejeve_kode =
   and stevilo_0 = Stanje.iz_niza "0" 
   and pika_prehodno = Stanje.iz_niza "pika_prehodno"
   and vprasaj_prehodno = Stanje.iz_niza "vprasaj_prehodno"
-  and vejica_prehodno = Stanje.iz_niza "vejica_prehodno"
   and pika = Stanje.iz_niza "."
   and vprasaj = Stanje.iz_niza "?"
   and vejica = Stanje.iz_niza ","
@@ -98,13 +100,14 @@ let prevajalnik_morsejeve_kode =
   |> dodaj_stanje z |> dodaj_stanje q
   |> dodaj_stanje a_s_pikicami |> dodaj_stanje u_s_pikicami
   |> dodaj_stanje sh |> dodaj_stanje o_s_pikicami
+  |> dodaj_stanje ch |> dodaj_stanje zh |> dodaj_stanje sh2
   |> dodaj_stanje stevilo_1 |> dodaj_stanje stevilo_2
   |> dodaj_stanje stevilo_3 |> dodaj_stanje stevilo_4
   |> dodaj_stanje stevilo_5 |> dodaj_stanje stevilo_6
   |> dodaj_stanje stevilo_7 |> dodaj_stanje stevilo_8
   |> dodaj_stanje stevilo_9 |> dodaj_stanje stevilo_0
   |> dodaj_stanje pika |> dodaj_stanje vprasaj |> dodaj_stanje vejica
-  |> dodaj_stanje pika_prehodno |> dodaj_stanje vprasaj_prehodno |> dodaj_stanje vejica_prehodno
+  |> dodaj_stanje pika_prehodno |> dodaj_stanje vprasaj_prehodno
   |> dodaj_stanje neveljaven_vnos
 
   |> dodaj_prehod koren '.' e "" 
@@ -204,12 +207,12 @@ let prevajalnik_morsejeve_kode =
   |> dodaj_prehod c '-' neveljaven_vnos "" 
   |> dodaj_prehod c ' ' koren "C"
 
-  |> dodaj_prehod y '.' neveljaven_vnos "" 
+  |> dodaj_prehod y '.' ch "" 
   |> dodaj_prehod y '-' neveljaven_vnos "" 
   |> dodaj_prehod y ' ' koren "Y"
 
   |> dodaj_prehod z '.' stevilo_7 "" 
-  |> dodaj_prehod z '-' vejica_prehodno "" 
+  |> dodaj_prehod z '-' zh "" 
   |> dodaj_prehod z ' ' koren "Z"
 
   |> dodaj_prehod q '.' neveljaven_vnos "" 
@@ -229,8 +232,20 @@ let prevajalnik_morsejeve_kode =
   |> dodaj_prehod sh ' ' koren "Š"
 
   |> dodaj_prehod o_s_pikicami '.' stevilo_8 "" 
-  |> dodaj_prehod o_s_pikicami '-' neveljaven_vnos "" 
+  |> dodaj_prehod o_s_pikicami '-' sh2 "" 
   |> dodaj_prehod o_s_pikicami ' ' koren "Ö"
+
+  |> dodaj_prehod ch '.' neveljaven_vnos "" 
+  |> dodaj_prehod ch '-' neveljaven_vnos "" 
+  |> dodaj_prehod ch ' ' koren "Č"
+
+  |> dodaj_prehod zh '.' neveljaven_vnos "" 
+  |> dodaj_prehod zh '-' vejica "" 
+  |> dodaj_prehod zh ' ' koren "Ž"
+
+  |> dodaj_prehod sh2 '.' neveljaven_vnos "" 
+  |> dodaj_prehod sh2 '-' neveljaven_vnos "" 
+  |> dodaj_prehod sh2 ' ' koren "Š"
 
   |> dodaj_prehod stevilo_1 '.' neveljaven_vnos "" 
   |> dodaj_prehod stevilo_1 '-' neveljaven_vnos "" 
@@ -277,9 +292,6 @@ let prevajalnik_morsejeve_kode =
 
   |> dodaj_prehod vprasaj_prehodno '.' vprasaj "" 
   |> dodaj_prehod vprasaj_prehodno '-' neveljaven_vnos "" 
-
-  |> dodaj_prehod vejica_prehodno '.' neveljaven_vnos "" 
-  |> dodaj_prehod vejica_prehodno '-' vejica "" 
 
   |> dodaj_prehod pika '.' neveljaven_vnos "" 
   |> dodaj_prehod pika '-' neveljaven_vnos "" 

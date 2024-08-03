@@ -46,7 +46,7 @@ let update model = function
 
 let rec izpisi_moznosti () =
   print_endline "1) izpiši avtomat";
-  print_endline "2) preberi niz";
+  print_endline "2) prevedi kodo";
   print_string "> ";
   match read_line () with
   | "1" -> ZamenjajVmesnik IzpisAvtomata

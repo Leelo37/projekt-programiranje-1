@@ -1,48 +1,62 @@
-# Končni avtomati
+# Mealyjevi avtomati
 
-Projekt vsebuje implementacijo končnih avtomatov, enega najpreprostejših računskih modelov, ter njihovo uporabo pri karakterizaciji nizov. Končni avtomat začne v enem izmed možnih stanj, nato pa glede na trenutno stanje in trenutni simbol preide v neko novo stanje. Če ob pregledu celotnega niza konča v enem od sprejemnih stanj, je niz sprejet, sicer pa ni.
+Projekt vsebuje implementacijo Mealyjevih avtomatov, enega najpogostejših tipov končnih avtomatov. Mealyjev avtomat je računski model, pri katerem so izhodi določeni glede na trenutno stanje in trenutni vhod. Avtomat začne v enem izmed možnih stanj, nato pa glede na trenutno stanje in trenutni simbol preide v neko novo stanje in vrne ustrezni izhod. Proces ponavlja, dokler ne zmanjka črk v nizu.
 
-Za tekoči primer si oglejmo avtomat, ki sprejema nize, sestavljene iz ničel in enic, v katerih da vsota enic pri deljenju s 3 ostanek 1. Tak avtomat predstavimo z naslednjim diagramom, na katerem je začetno stanje označeno s puščico, sprejemna stanja pa so dvojno obkrožena.
-
-TODO
+Projekt razširja koncept končnih avtomatov z uporabo Mealyjevih avtomatov za prevajanje Morsejeve kode. Avtomat sprejme niz v obliki Morsejeve abecede in ga prevede v besedilo.
 
 ## Matematična definicija
 
-Končni avtomat je definiran kot nabor $(\Sigma, Q, q_0, F, \delta)$, kjer so:
+Mealyjev avtomat je definiran kot nabor $(Q, q_0, \Sigma, \Lambda, \delta)$ , kjer so:
 
-- $\Sigma$ množica simbolov oz. abeceda,
-- $Q$ množica stanj,
-- $q_0 \in Q$ začetno stanje,
-- $F \subseteq Q$ množica sprejemnih stanj in
-- $\delta : Q \times \Sigma \to Q$ prehodna funkcija.
-
-Na primer, zgornji končni avtomat predstavimo z naborom $(\{0, 1\}, \{q_0, q_1, q_2\}, q_0, \{q_1\}, \delta)$, kjer je $\delta$ podana z naslednjo tabelo:
-
-| $\delta$ | `0`   | `1`   |
-| -------- | ----- | ----- |
-| $q_0$    | $q_0$ | $q_1$ |
-| $q_1$    | $q_2$ | $q_0$ |
-| $q_2$    | $q_1$ | $q_2$ |
+- množica stanj $Q$,
+- začetno stanje $q_0 \in Q$,
+- vhodna abeceda $\Sigma$,
+- izhodna abeceda $\Lambda$ in
+- prehodna funkcija $\delta : Q \times \Sigma \to Q \times \Lambda$, ki slika pare stanj in vhodov v ustrezne pare stanj in izhodov
 
 ## Navodila za uporabo
 
-Ker projekt služi kot osnova za večje projekte, so njegove lastnosti zelo okrnjene. Konkretno implementacija omogoča samo zgoraj omenjeni končni avtomat. Na voljo sta dva vmesnika, tekstovni in grafični. Oba prevedemo z ukazom `dune build`, ki v korenskem imeniku ustvari datoteko `tekstovniVmesnik.exe`, v imeniku `html` pa JavaScript datoteko `spletniVmesnik.bc.js`, ki se izvede, ko v brskalniku odpremo `spletniVmesnik.html`.
+Za uporabo je na voljo je tekstovni vmesnik. Prevedemo ga z ukazom `dune build`, ki v korenskem imeniku ustvari datoteko `tekstovniVmesnik.exe`.
 
-Če OCamla nimate nameščenega, lahko še vedno preizkusite tekstovni vmesnik prek ene od spletnih implementacij OCamla, najbolje <http://ocaml.besson.link/>, ki podpira branje s konzole. V tem primeru si na vrh datoteke `tekstovniVmesnik.ml` dodajte še vrstice
+### Zahteve
 
-```ocaml
-module Avtomat = struct
-    (* celotna vsebina datoteke avtomat.ml *)
-end
+Prepričajte se, da imate na vašem sistemu naložen OCaml in Dune.
+
+### Gradnja projekta
+
+Za gradnjo projekta uporabite naslednje ukaze:
+
+```bash
+# Klonirajte repozitorij
+git clone https://github.com/Leelo37/projekt-programiranje-1
+
+# Zgradite projekt z uporabo Dune
+dune build
 ```
+
+To bo ustvarilo izvedljivo datoteko tekstovniVmesnik.exe za tekstovni vmesnik.
 
 ### Tekstovni vmesnik
 
-TODO
+Za uporabo tekstovnega vmesnika za dekodiranje Morsejeve kode zaženite naslednji ukaz:
 
-### Spletni vmesnik
+```bash
+dune exec ./tekstovniVmesnik.exe
+```
 
-TODO
+Program vas bo pozval, da izberete eno izmed dveh možnosti:
+
+```bash
+1) izpiši avtomat
+2) prevedi kodo
+```
+
+Če si želite pogledati strukturo avtomata, izberite prvo možnost. Če pa želite prevesti Morsejevo kodo, izberite drugo možnost. Program vas bo pozval, da vnesete niz Morsejeve kode. Na primer:
+
+```plaintext
+Vnesi niz > - . ... - --..-- / .---- ..--- ...--
+TEST 123
+```
 
 ## Implementacija
 
