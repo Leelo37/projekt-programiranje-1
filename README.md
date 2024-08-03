@@ -66,3 +66,9 @@ Projekt je sestavljen iz naslednjih datotek:
 - trak.ml: Predstavlja vhodni trak za avtomat.
 - zagnaniAvtomat.ml: Delovanje zagnanega avtomata korak za korakom, ko obdeluje vhod iz traka.
 - tekstovniVmesnik.ml: Vmesnik za dekodiranje Morsejeve kode iz terminala.
+
+## Mealyjevi avtomati kot razširitev končnih avtomatov
+
+Osnovna struktura Mealyjevih avtomatov je podobna navadnim končnim avtomatov. Mealyjevi avtomati se razlikujejo predvsem v tem, da pri premiku v naslednje stanje vrnejo znak iz izhodne abecede, medtem ko nas pri navadnih končnih avtomatih zanima le, če avtomat na koncu niza konča v sprejemnem stanju ali ne. 
+
+Pri tem je vredno omeniti še Moorove avtomate, ki se od Mealyjevih avtomatov razlikujejo le v tem, da so pri Moorovih avtomatih izhodi odvisni le od trenutnega stanja, pri Mealyjevih pa tudi od trenutnega znaka.
